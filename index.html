@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messenger Cat</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&family=Jost:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="messenges"></div>
+    <section class="chat">
+        <article class="chat_conteiner">
+            <input type="text" class="text_message" placeholder="  Введите сообщение">
+            <button class="send">Отправить</button>
+        </article>
+    </section>
+    <script>
+        const socket = new WebSocket('ws://localhost:8080');
+
+        socket.onmessage = function (event) {
+            const messagesDiv = document.querySelector('.messenges');
+
+            // проверяем сообщение на blob
+            if (event.data instanceof Blob) {
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    messagesDiv.innerHTML += `<div>Получено новое сообщение: ${e.target.result}</div>`;
+                };
+                reader.readAsText(event.data);
+            } else {
+                // если не blob - выводим смс
+                messagesDiv.innerHTML += `<div>${event.data}</div>`;
+            }
+        };
+
+        // отправка по кнопке "Отправить"
+        document.querySelector('.send').onclick = function () {
+            const input = document.querySelector('.text_message');
+            socket.send(input.value);
+            input.value = '';
+        };
+        
+        // отправка по кнопке enter
+        document.querySelector('.text_message').addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                document.querySelector('.send').click();
+            }
+        });
+
+    </script>
+</body>
+
+</html>

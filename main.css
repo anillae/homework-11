@@ -1,0 +1,50 @@
+body {
+    display: flex;
+    justify-content: center;
+    margin-top: 70px;   
+}
+
+.chat {
+    display: flex;
+    align-items: flex-end;
+    width: 800px;
+    height: 600px;
+    border: 2px solid black;
+    overflow-y: scroll;
+    background-image: url("img/cat.jpg");
+    margin-right: 200px;
+}
+
+.chat_conteiner {
+    display: flex;
+    justify-content: center;
+}
+
+.messenges {
+    font-family: 'Tinos';
+    font-size: 20px;
+    color: #000;
+    margin-right: 50px;
+}
+
+input {
+    width: 571px;
+    height: 35px;
+}
+
+input::placeholder {
+    font-family: 'Tinos';
+    font-size: 20px;
+    font-weight: 400;
+}
+
+button {
+    font-family: 'Tinos';
+    font-size: 20px;
+    font-weight: 400;
+    width: 200px;
+    height: 41px;
+    background-color: rgb(33, 33, 33);
+    color: white;
+    cursor: pointer;
+}
